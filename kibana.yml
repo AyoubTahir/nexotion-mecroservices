@@ -1,0 +1,79 @@
+# Kibana server configuration
+server.name: kibana
+server.host: "0.0.0.0"
+server.port: 5601
+
+# Elasticsearch connection settings
+#elasticsearch.hosts: ["http://elasticsearch_container:9200"]
+#elasticsearch.username: "kibana_system"
+#elasticsearch.password: "your_secure_password"
+
+# Enable monitoring UI integration with Elasticsearch
+monitoring.ui.container.elasticsearch.enabled: true
+
+# Fleet and Agent configuration
+xpack.fleet.enabled: true
+xpack.fleet.agents.enabled: true
+xpack.fleet.agents.elasticsearch.hosts: ["http://elasticsearch_container:9200"]
+xpack.fleet.agents.fleet_server.hosts: ["http://fleet_server:9243"]
+xpack.reporting.roles.enabled: false
+
+# Encryption settings
+xpack.encryptedSavedObjects.encryptionKey: "this-is-not-a-real-key-but-gets-the-job-done"
+
+# APM Server integration policy
+xpack.fleet.packages:
+  - name: apm
+    version: latest
+
+xpack.fleet.agentPolicies:
+  - name: "Agent policy 1"
+    id: agent-policy-1
+    namespace: default
+    monitoring_enabled:
+      - logs
+      - metrics
+    package_policies:
+      - name: apm-1
+        id: default-apm
+        package:
+          name: apm
+
+# Security settings
+#xpack.security.enabled: true
+#xpack.security.encryptionKey: "something_at_least_32_characters_long"
+
+# SSL/TLS settings (recommended for production)
+#server.ssl.enabled: true
+#server.ssl.certificate: "/path/to/your/certificate.crt"
+#server.ssl.key: "/path/to/your/private.key"
+
+# Session settings
+#xpack.security.session.idleTimeout: "1h"
+#xpack.security.session.lifespan: "24h"
+
+# Logging configuration
+#logging.root.level: "info"
+#logging.appenders.file.type: file
+#logging.appenders.file.fileName: "/var/log/kibana/kibana.log"
+#logging.appenders.file.layout.type: json
+
+# Cross-Origin Resource Sharing (CORS) settings
+#server.cors.enabled: true
+#server.cors.allowCredentials: true
+#server.cors.allowOrigin: ["*"]
+
+# Misc settings
+#server.maxPayloadBytes: 1048576
+#server.basePath: ""
+#server.rewriteBasePath: false
+
+# Monitoring settings
+#monitoring.kibana.collection.enabled: true
+#monitoring.kibana.collection.interval: 10000
+
+# Comment out features you don't need
+#xpack.maps.enabled: true
+#xpack.graph.enabled: true
+#xpack.ml.enabled: true
+#xpack.monitoring.enabled: true
